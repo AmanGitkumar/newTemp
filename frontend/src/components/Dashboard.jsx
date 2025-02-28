@@ -4,6 +4,8 @@ import { getExpenses } from "../services/expense";
 import { getIncomes } from "../services/income";
 import "./Dashboard.css";
 
+
+
 const Dashboard = () => {
   const [expenses, setExpenses] = useState([]);
   const [incomes, setIncomes] = useState([]);
@@ -76,30 +78,42 @@ const Dashboard = () => {
             </tr>
           </thead>
           <tbody>
-            {[...incomes, ...expenses].map((transaction) => (
-              <tr
-                key={transaction._id}
-                className={
-                  transaction.type ? transaction.type.toLowerCase() : "income"
-                }
-              >
-                <td>
-                  {new Date(transaction.date).toLocaleDateString("en-GB")}
-                </td>
-                <td>{transaction.category || transaction.source}</td>
-                <td>
-                  {transaction.type
-                    ? transaction.type.charAt(0).toUpperCase() +
-                      transaction.type.slice(1)
-                    : incomes.some((inc) => inc._id === transaction._id)
-                    ? "Income"
-                    : "Expense"}
-                </td>
+  {[...incomes, ...expenses]
+    .sort((a, b) => new Date(a.date) - new Date(b.date)) // Sort by date (oldest first)
+    .map((transaction) => {
+      const transactionType = transaction.type
+        ? transaction.type.toLowerCase()
+        : incomes.some((inc) => inc._id === transaction._id)
+        ? "income"
+        : "expense";
 
-                <td>₹{transaction.amount}</td>
-              </tr>
-            ))}
-          </tbody>
+      // Convert date to dd/mm/yyyy format
+      const formattedDate = new Date(transaction.date)
+        .toLocaleDateString("en-GB", {
+          day: "2-digit",
+          month: "2-digit",
+          year: "numeric",
+        });
+
+      return (
+        <tr
+          key={transaction._id}
+          style={{
+            backgroundColor: transactionType === "income" ? "lightgreen" : "lightcoral",
+            color: "black",
+          }}
+        >
+          <td>{formattedDate}</td>
+          <td>{transaction.category || transaction.source}</td>
+          <td>{transactionType.charAt(0).toUpperCase() + transactionType.slice(1)}</td>
+          <td>₹{transaction.amount}</td>
+        </tr>
+      );
+    })}
+</tbody>
+
+
+
         </table>
       </div>
 
@@ -116,6 +130,3 @@ const Dashboard = () => {
 };
 
 export default Dashboard;
-
-
-

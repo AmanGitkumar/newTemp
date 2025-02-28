@@ -59,3 +59,27 @@
     cursor: pointer;
     font-size: 18px;
 }
+.income-header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    margin-bottom: 10px;
+}
+
+.add-income-btn {
+    width: 100%;
+    padding: 12px;
+    background-color: green;
+    color: white;
+    font-size: 16px;
+    font-weight: bold;
+    border: none;
+    cursor: pointer;
+    margin-bottom: 10px;
+}
+
+.add-income-btn:hover {
+    background-color: darkgreen;
+}
+
