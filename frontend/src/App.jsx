@@ -15,6 +15,8 @@ import Signup from "./components/Signup";
 
 
 
+
+
 function App() {
   return (
     <Router>
@@ -33,6 +35,7 @@ function MainContent() {
       {isLoggedIn && <Navbar />}
 
       <div className="container">
+      
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/dashboard" element={<Dashboard />} />
@@ -41,6 +44,7 @@ function MainContent() {
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
         </Routes>
+  
       </div>
     </>
   );

@@ -124,6 +124,7 @@ const Dashboard = () => {
         <Link to="/expenses" className="dashboard-btn expenses-btn">
           View Expenses
         </Link>
+
       </div>
     </div>
   );
