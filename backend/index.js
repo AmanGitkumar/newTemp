@@ -32,6 +32,8 @@ app.use('/categories', CategoryRouter);
 app.use('/incomes', ensureAuthenticated, IncomeRouter); // ✅ Added this line
 app.use("/dashboard", DashboardRouter);
 
+
+
 app.listen(PORT, () => {
     console.log(`Server is running on ${PORT}`);
 });

@@ -17,6 +17,7 @@ import Signup from "./components/Signup";
 
 
 
+
 function App() {
   return (
     <Router>
@@ -43,6 +44,7 @@ function MainContent() {
           <Route path="/expenses" element={<Expenses />} />
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
+
         </Routes>
   
       </div>

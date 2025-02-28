@@ -1,19 +1,28 @@
 import React, { useState, useEffect } from "react";
 import { addIncome, getIncomes, deleteIncome } from "../services/income";
 import "../components/Incomes.css";
+import { Trash2 } from "lucide-react";
+
 
 const Incomes = () => {
   const [incomes, setIncomes] = useState([]);
+  const [filteredIncomes, setFilteredIncomes] = useState([]);
   const [formData, setFormData] = useState({
     source: "",
     amount: "",
     date: "",
   });
   const [loading, setLoading] = useState(false);
+  const [sortType, setSortType] = useState("latest");
+  const [searchQuery, setSearchQuery] = useState("");
 
   useEffect(() => {
     fetchIncomes();
   }, []);
+
+  useEffect(() => {
+    applySortingAndFiltering(incomes);
+  }, [sortType, searchQuery]);
 
   const fetchIncomes = async () => {
     const token = localStorage.getItem("token");
@@ -40,6 +49,7 @@ const Incomes = () => {
       }
 
       setIncomes(data);
+      applySortingAndFiltering(data);
     } catch (error) {
       console.error("Error fetching incomes:", error);
       alert(error.message);
@@ -75,14 +85,13 @@ const Incomes = () => {
   };
 
   const handleDeleteIncome = async (id) => {
-    if (!window.confirm("Are you sure you want to delete this income?")) return;
-
     try {
       setLoading(true);
       await deleteIncome(id);
       setIncomes((prevIncomes) =>
         prevIncomes.filter((income) => income._id !== id)
       );
+      applySortingAndFiltering(incomes.filter((income) => income._id !== id));
     } catch (error) {
       console.error("Error deleting income:", error);
       alert("Failed to delete income!");
@@ -91,9 +100,47 @@ const Incomes = () => {
     }
   };
 
+  const applySortingAndFiltering = (data) => {
+    let sortedIncomes = [...data];
+
+    if (searchQuery) {
+      sortedIncomes = sortedIncomes.filter((income) =>
+        income.source.toLowerCase().includes(searchQuery.toLowerCase())
+      );
+    }
+
+    if (sortType === "latest") {
+      sortedIncomes.sort((a, b) => new Date(b.date) - new Date(a.date));
+    } else if (sortType === "oldest") {
+      sortedIncomes.sort((a, b) => new Date(a.date) - new Date(b.date));
+    } else if (sortType === "high") {
+      sortedIncomes.sort((a, b) => b.amount - a.amount);
+    } else if (sortType === "low") {
+      sortedIncomes.sort((a, b) => a.amount - b.amount);
+    }
+
+    setFilteredIncomes(sortedIncomes);
+  };
+
   return (
     <div className="income-container">
       <h2 className="income-heading">Income</h2>
+
+      {/* ✅ Sorting & Search Filters */}
+      <div className="filters">
+        <select onChange={(e) => setSortType(e.target.value)}>
+          <option value="latest">Sort by: Latest</option>
+          <option value="oldest">Sort by: Oldest</option>
+          <option value="high">Sort by: High Amount</option>
+          <option value="low">Sort by: Low Amount</option>
+        </select>
+        <input
+          type="text"
+          placeholder="Search by Source"
+          value={searchQuery}
+          onChange={(e) => setSearchQuery(e.target.value)}
+        />
+      </div>
 
       {/* ✅ Income Form */}
       <div className="income-form">
@@ -115,13 +162,11 @@ const Incomes = () => {
           type="date"
           name="date"
           value={formData.date}
-          onChange={(e) => {
-            setFormData({ ...formData, date: e.target.value });
-          }}
+          onChange={(e) => setFormData({ ...formData, date: e.target.value })}
         />
       </div>
 
-      {/* ✅ Add Income Button (Between Input Section & Table) */}
+      {/* ✅ Add Income Button */}
       <button
         className="add-income-btn"
         onClick={handleAddIncome}
@@ -144,37 +189,26 @@ const Incomes = () => {
             </tr>
           </thead>
           <tbody>
-            {incomes.length === 0 ? (
+            {filteredIncomes.length === 0 ? (
               <tr>
                 <td colSpan="4">No incomes found.</td>
               </tr>
             ) : (
-              incomes.map((income) => {
-                const formattedDate = new Date(income.date).toLocaleDateString(
-                  "en-GB",
-                  {
-                    day: "2-digit",
-                    month: "2-digit",
-                    year: "numeric",
-                  }
-                );
-
-                return (
-                  <tr key={income._id}>
-                    <td>{income.source}</td>
-                    <td>₹{income.amount}</td>
-                    <td>{formattedDate}</td>
-                    <td>
-                      <button
-                        className="delete-btn"
-                        onClick={() => handleDeleteIncome(income._id)}
-                      >
-                        ❌
-                      </button>
-                    </td>
-                  </tr>
-                );
-              })
+              filteredIncomes.map((income) => (
+                <tr key={income._id}>
+                  <td>{income.source}</td>
+                  <td>₹{income.amount}</td>
+                  <td>{new Date(income.date).toLocaleDateString("en-GB")}</td>
+                  <td>
+  <button
+    className="delete-btn"
+    onClick={() => handleDeleteExpense(expense._id)}
+  >
+    <Trash2 size={20} color="red" />
+  </button>
+</td>
+                </tr>
+              ))
             )}
           </tbody>
         </table>
