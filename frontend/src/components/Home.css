@@ -1,0 +1,176 @@
+/* Reset */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* Default Light Mode */
+.home-container {
+  background-color: #ffffff;
+  color: #191919;
+  transition: background-color 0.3s ease, color 0.3s ease;
+  text-align: center;
+  padding: 50px;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Dark Mode */
+[data-theme="dark"] .home-container {
+  background-color: #034a1a;
+  color: #ffffff;
+}
+
+/* Header Container */
+.header-container {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 40px;
+  width: 100%;
+}
+
+/* Right Side Content */
+.homeright {
+  max-width: 500px;
+  text-align: center;
+}
+
+/* Title */
+.home-title {
+  font-size: 2.5rem;
+  font-weight: bold;
+  color: #00b894; /* Green accent */
+}
+
+/* Dark Mode Title */
+[data-theme="dark"] .home-title {
+  color: #00ffcc;
+}
+
+/* Description */
+.home-description {
+  font-size: 1.2rem;
+  color: #555;
+  margin-bottom: 20px;
+}
+
+/* Dark Mode Description */
+[data-theme="dark"] .home-description {
+  color: #cccccc;
+}
+
+/* Navbar Right */
+.navbar-right {
+  display: flex;
+  justify-content: center;
+}
+
+/* Auth Links */
+.auth-links {
+  list-style: none;
+  display: flex;
+  gap: 15px;
+  padding: 0;
+}
+
+.auth-links li {
+  display: inline-block;
+}
+
+/* Buttons */
+.login-btn, .signup-btn {
+  padding: 10px 20px;
+  font-size: 1rem;
+  border-radius: 20px;
+  text-decoration: none;
+  transition: all 0.3s ease-in-out;
+}
+
+/* Light Mode Buttons */
+.login-btn {
+  background: transparent;
+  color: black;
+  border: 1px solid black;
+}
+
+.signup-btn {
+  background: #f8b400;
+  color: white;
+  font-weight: bold;
+  border: none;
+}
+
+/* Dark Mode Buttons */
+[data-theme="dark"] .login-btn {
+  color: white;
+  border-color: white;
+}
+
+[data-theme="dark"] .signup-btn {
+  background: #ff8c00;
+}
+
+/* Hover Effects */
+.login-btn:hover {
+  background: black;
+  color: white;
+}
+
+.signup-btn:hover {
+  background: #e69a00;
+}
+
+/* Theme Toggle Image */
+.daypic {
+  cursor: pointer;
+  transition: transform 0.3s ease-in-out;
+  height: 35px;
+  padding: 0 9px;
+  border-radius: 30px;
+  position: absolute;
+  top: 20px;
+  right: 50px;
+}
+
+.daypic:hover {
+  transform: scale(1.1);
+}
+
+/* Finance Tracker Image */
+.homep {
+  height: 350px;
+  border-radius: 22px;
+  transition: transform 0.3s ease;
+}
+
+/* Dark Mode Image */
+[data-theme="dark"] .homep {
+  filter: brightness(0.8);
+}
+
+.homep:hover {
+  transform: scale(1.05);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .header-container {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .homep {
+    height: 250px;
+  }
+
+  .daypic {
+    top: 15px;
+    right: 20px;
+  }
+}
