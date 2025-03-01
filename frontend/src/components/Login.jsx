@@ -29,7 +29,7 @@ const Login = () => {
                 alert(data.message || "Login Failed");
             }
         } catch (error) {
-            console.error("Error:", error);
+            console.log("Error:", error);
             alert("Something went wrong!");
         }
     };

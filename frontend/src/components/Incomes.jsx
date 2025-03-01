@@ -202,7 +202,7 @@ const Incomes = () => {
                   <td>
   <button
     className="delete-btn"
-    onClick={() => handleDeleteExpense(expense._id)}
+    onClick={() => handleDeleteIncome(income._id)} 
   >
     <Trash2 size={20} color="red" />
   </button>

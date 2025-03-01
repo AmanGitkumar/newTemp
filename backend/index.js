@@ -2,12 +2,12 @@ const express = require('express');
 const app = express();
 const cors = require('cors');
 const AuthRouter = require('./Routes/AuthRouter');
-const ProductRouter = require('./Routes/ProductRouter');
 const ExpenseRouter = require('./Routes/ExpenseRouter');
 const CategoryRouter = require("./Routes/CategoryRouter");
 const IncomeRouter = require("./Routes/IncomeRouter"); // ✅ Added this line
 const DashboardRouter = require("./Routes/DashboardRouter");
 const ensureAuthenticated = require('./Middlewares/Auth');
+const transactionRoutes = require("./Routes/TransactionRouter");
 require('dotenv').config();
 require('./Models/db');
 
@@ -26,11 +26,13 @@ app.get('/ping', (req, res) => {
 });
 
 app.use('/auth', AuthRouter);
-app.use('/products', ProductRouter);
+
 app.use('/expenses', ensureAuthenticated, ExpenseRouter);
 app.use('/categories', CategoryRouter);
 app.use('/incomes', ensureAuthenticated, IncomeRouter); // ✅ Added this line
 app.use("/dashboard", DashboardRouter);
+app.use("/transactions", transactionRoutes);
+
 
 
 

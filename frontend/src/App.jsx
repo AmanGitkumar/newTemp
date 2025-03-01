@@ -12,6 +12,7 @@ import Income from "./components/Incomes";
 import Expenses from "./components/Expenses";
 import Login from "./components/Login";
 import Signup from "./components/Signup";
+import TransactionHistory from "./components/TransactionHistory";
 
 
 
@@ -44,7 +45,7 @@ function MainContent() {
           <Route path="/expenses" element={<Expenses />} />
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
-
+          <Route path="/transactions" element={<TransactionHistory />} />
         </Routes>
   
       </div>
